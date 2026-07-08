@@ -7,7 +7,7 @@ app.use(express.json())
 app.use(cookieParser())
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://YOUR-FRONTEND.onrender.com"
+    "https://interviewpilotai-1.onrender.com"
 ];
 
 app.use(cors({
