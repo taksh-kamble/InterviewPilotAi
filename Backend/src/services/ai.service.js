@@ -42,7 +42,7 @@ location: z.string().describe(
 
 async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
 
-
+try{
     const prompt = `Generate an interview report for a candidate with the following details:
                         Resume: ${resume}
                         Self Description: ${selfDescription}
@@ -74,6 +74,11 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 report.liveJobs = jobs;
    console.log(report);
     return report
+}
+ catch(err){
+    console.error("Gemini Error:", err);
+    throw err
+}
 }
 function buildResourceLinks(query) {
     const encoded = encodeURIComponent(query)
