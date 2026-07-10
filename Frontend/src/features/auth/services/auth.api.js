@@ -18,6 +18,7 @@ export async function register({ username, email, password }) {
     } catch (err) {
 
         console.log(err)
+        throw err;
 
     }
 
@@ -35,6 +36,7 @@ export async function login({ email, password }) {
 
     } catch (err) {
         console.log(err)
+        throw err;
     }
 
 }
@@ -48,6 +50,7 @@ export async function logout() {
 
     } catch (err) {
       console.log(err)
+      throw err;
     }
 }
 
@@ -60,7 +63,8 @@ export async function getMe() {
         return response.data
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
+        throw err;
     }
 
 }
