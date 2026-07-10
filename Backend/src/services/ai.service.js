@@ -50,7 +50,7 @@ try{
 `
 
     const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-pro",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
@@ -117,7 +117,8 @@ async function generatePdfFromHtml(htmlContent) {
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
-
+ 
+ try{
     const resumePdfSchema = z.object({
         html: z.string().describe("The HTML content of the resume which can be converted to PDF using any library like puppeteer")
     })
@@ -136,7 +137,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
                     `
 
     const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-pro",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
@@ -151,6 +152,11 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 
     return pdfBuffer
 
+}
+catch(err){
+  console.log(err);
+  throw err;
+}
 }
 
 module.exports = { generateInterviewReport, generateResumePdf }
