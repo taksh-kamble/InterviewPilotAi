@@ -8,29 +8,42 @@ const { searchJobs, getJobDetails } = require("../services/ai.jobs");
 
 
 async function generateInterViewReportController(req, res) {
+    try {
 
-    const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
-    const { selfDescription, jobDescription } = req.body
+        const resumeContent = await (
+            new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))
+        ).getText();
 
-    const interViewReportByAi = await generateInterviewReport({
-        resume: resumeContent.text,
-        selfDescription,
-        jobDescription
-    })
+        const { selfDescription, jobDescription } = req.body;
 
-    const interviewReport = await interviewReportModel.create({
-        user: req.user.id,
-        resume: resumeContent.text,
-        selfDescription,
-        jobDescription,
-        ...interViewReportByAi
-    })
+        const interViewReportByAi = await generateInterviewReport({
+            resume: resumeContent.text,
+            selfDescription,
+            jobDescription
+        });
 
-    res.status(201).json({
-        message: "Interview report generated successfully.",
-        interviewReport
-    })
+        const interviewReport = await interviewReportModel.create({
+            user: req.user.id,
+            resume: resumeContent.text,
+            selfDescription,
+            jobDescription,
+            ...interViewReportByAi
+        });
 
+        res.status(201).json({
+            message: "Interview report generated successfully.",
+            interviewReport
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        return res.status(503).json({
+            success: false,
+            message: "AI service is temporarily unavailable. Please try again."
+        });
+    }
 }
 
 
